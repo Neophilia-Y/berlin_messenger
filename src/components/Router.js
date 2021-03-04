@@ -7,14 +7,14 @@ import Auth from "../routes/Auth";
 import Navigation from "./Navigation"
 
 
-const AppRouter = ({ isLogIn }) => {
+const AppRouter = ({ isLogIn, userObj }) => {
     return (
         <Router>
             {isLogIn && (<Navigation />)}
 
             <Switch>
 
-                {isLogIn ? (<Route exact path="/"><Home /></Route>) : (<><Route exact path="/"><Auth /></Route></>)}
+                {isLogIn ? (<Route exact path="/"><Home userObj={userObj} /></Route>) : (<><Route exact path="/"><Auth /></Route></>)}
                 <Route path="/profile" component={Profile} />
             </Switch>
 

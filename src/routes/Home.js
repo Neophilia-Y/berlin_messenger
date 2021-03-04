@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../FirebaseConfig";
 
-const Home = () => {
+const Home = ({ userObj }) => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
-    const getData = async () => {
-        const data = await dbService.collection("messages").get()
-        data.forEach(document => {
-            setMessages(prev => [{
-                id: document.id, ...document.data()
-            }, ...prev]
-            );
+    const getData = () => {
+        dbService.collection("messages").onSnapshot(snapshot => {
+            const newArray = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })
+            )
+            new
+                setMessages(newArray);
+
         });
     }
     useEffect(() => {
         getData();
-
 
     }, []);
     const onChange = (e) => {
@@ -25,8 +27,9 @@ const Home = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         await dbService.collection("messages").add({
-            message,
+            text: message,
             createdAt: Date.now(),
+            creatorId: userObj.uid,
         })
         setMessage("");
     }
@@ -38,7 +41,8 @@ const Home = () => {
                 <input type="submit" />
             </form>
             <div>
-                {messages.map(m => (<h3 key={m.id}>{m.message}</h3>))}
+                {messages.map(m => (<h3 key={m.id}>{m.text}</h3>))}
+
             </div>
         </>
     )

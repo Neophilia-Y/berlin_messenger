@@ -5,10 +5,12 @@ import { authService } from "../FirebaseConfig";
 function App() {
   const [init, setInit] = useState(false);
   const [isLogIn, setIsLogIn] = useState(authService.currentUser);
+  const [userObj, setUserObj] = useState(null);
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setIsLogIn(true);
+        setUserObj(user);
       } else {
         setIsLogIn(false);
       }
@@ -16,7 +18,10 @@ function App() {
     })
   }, [])
   return (
-    <AppRouter isLogIn={isLogIn} />
+    <>
+      {init ? (<AppRouter isLogIn={isLogIn} userObj={userObj} />) : "initializing......"}
+
+    </>
   );
 }
 

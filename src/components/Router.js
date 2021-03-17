@@ -1,21 +1,25 @@
 import React from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import EditProfile from "../routes/EditProfile";
 import Home from "../routes/Home";
 import Profile from "../routes/Profile";
 import Auth from "../routes/Auth";
 import Navigation from "./Navigation"
-
+import GlobalStyle from "./Globalstyle";
+import CreateDash from "./CreateDash";
+import DashBoard from "../routes/DashBoard";
 
 const AppRouter = ({ isLogIn, userObj }) => {
     return (
         <Router>
-            {isLogIn && (<Navigation />)}
-
+            <GlobalStyle />
+            {isLogIn && (<Navigation userObj={userObj} />)}
             <Switch>
 
-                {isLogIn ? (<Route exact path="/"><Home userObj={userObj} /></Route>) : (<><Route exact path="/"><Auth /></Route></>)}
-                <Route path="/profile" component={Profile} />
+                {isLogIn ? (<Route exact path="/"><DashBoard userObj={userObj} /></Route>) : (<><Route exact path="/"><Auth /></Route></>)}
+                <Route exact path="/profile">
+                    <Profile userObj={userObj} />
+                </Route>
+                <Route exact path="/create" ><CreateDash userObj={userObj} /></Route>
             </Switch>
 
 

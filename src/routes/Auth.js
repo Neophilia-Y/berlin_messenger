@@ -37,7 +37,7 @@ const Auth = () => {
 
     const signUp = async (e) => {
         const { target: { name } } = e;
-        console.log(name);
+
         let provider;
         if (name === "google") {
             provider = new firebaseInstance.auth.GoogleAuthProvider();

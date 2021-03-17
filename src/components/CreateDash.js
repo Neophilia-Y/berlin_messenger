@@ -19,14 +19,14 @@ const Form = styled.form`
 
 `;
 const TitleInput = styled.input`
-    border: 2px solid #2ecc71;
+    border: 2px solid #0c2461;
     border-radius: 10px;
     padding:10px;
     outline: none;
 `;
 
 const DesInput = styled.textarea`
-border: 2px solid #2ecc71;
+border: 2px solid #0c2461;
 border-radius: 10px;
 padding:10px;
 outline:none;

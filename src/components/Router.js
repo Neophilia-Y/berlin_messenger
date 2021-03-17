@@ -15,15 +15,16 @@ const AppRouter = ({ isLogIn, userObj }) => {
             {isLogIn && (<Navigation userObj={userObj} />)}
             <Switch>
 
-                {isLogIn ? (<Route exact path="/"><DashBoard userObj={userObj} /></Route>) : (<><Route exact path="/"><Auth /></Route></>)}
+                {isLogIn ? (<Route exact path="/"><Home userObj={userObj} /></Route>) : (<><Route exact path="/"><Auth /></Route></>)}
                 <Route exact path="/profile">
                     <Profile userObj={userObj} />
                 </Route>
                 <Route exact path="/create" ><CreateDash userObj={userObj} /></Route>
+                <Route exact path={`/dashboard/:id`}><DashBoard userObj={userObj} /></Route>
             </Switch>
 
-
-        </Router>)
+        </Router>
+    )
 }
 
 export default AppRouter;

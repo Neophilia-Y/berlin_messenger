@@ -5,9 +5,9 @@ import { authService } from "../FirebaseConfig";
 
 
 const Nav = styled.ul`
-    height: 10vh;
+    height: 4em;
     width: 100vw;
-    background-color: #16a085;
+    background-color: #0c2461;
     color: white;
     display: flex;
     align-items: center;
@@ -23,7 +23,7 @@ const SLink = styled(Link)`
 `;
 
 const NavList = styled.li`
-    padding: 1em 2em;
+    padding: 0.9em 2em;
     font-size: 1.5em;
     border-bottom : ${props => props.selected ? "solid 5px #42f2f5" : "transparent"};
     transition-duration: 0.4s;

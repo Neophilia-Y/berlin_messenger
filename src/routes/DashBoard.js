@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { dbService, storageService } from "../FirebaseConfig";
 import Message from "../components/Message";
 import { v4 as uuidv4 } from 'uuid';
+import { useLocation } from "react-router-dom";
 
 const DashBoard = ({ userObj }) => {
     const [message, setMessage] = useState("");
@@ -9,8 +10,13 @@ const DashBoard = ({ userObj }) => {
     const [attachment, setAttachment] = useState("");
     const fileInput = useRef();
 
+    const { pathname: location } = useLocation();
+    const dashId = location.split("/")[2];
+
+
+
     const getData = () => {
-        dbService.collection("messages").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+        dbService.collection("Berlin").doc(dashId).collection("messages").orderBy("createdAt", "desc").onSnapshot(snapshot => {
             const newArray = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
@@ -21,6 +27,7 @@ const DashBoard = ({ userObj }) => {
         });
     }
     useEffect(() => {
+
         getData();
     }, []);
 
@@ -37,7 +44,7 @@ const DashBoard = ({ userObj }) => {
             attachmentUrl = await response.ref.getDownloadURL();
 
         }
-        await dbService.collection("messages").add({
+        await dbService.collection("Berlin").doc(dashId).collection("messages").add({
             text: message,
             createdAt: Date.now(),
             creatorId: userObj.uid,
@@ -61,6 +68,9 @@ const DashBoard = ({ userObj }) => {
 
     }
 
+
+
+
     return (
         <>
             <h2>"Let's talk what we have to solve"</h2>
@@ -75,7 +85,7 @@ const DashBoard = ({ userObj }) => {
                     </div>)}
             </form>
             <div>
-                {messages.map(m => (<Message key={m.id} messageInfo={m} userCheck={userObj.uid === m.creatorId} />))}
+                {messages.map(m => (<Message key={m.id} dashId={dashId} messageInfo={m} userCheck={userObj.uid === m.creatorId} />))}
             </div>
 
         </>

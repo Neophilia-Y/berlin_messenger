@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { dbService, storageService } from "../FirebaseConfig"
 
-const Message = ({ messageInfo, userCheck }) => {
+const Message = ({ messageInfo, userCheck, dashId }) => {
     const [editing, setEditing] = useState(false);
     const [newMessage, setNewMessage] = useState(messageInfo.text);
     const onDelete = async (e) => {
@@ -10,7 +10,7 @@ const Message = ({ messageInfo, userCheck }) => {
             if (messageInfo.attachment !== "") {
                 await storageService.refFromURL(messageInfo.attachment).delete();
             }
-            await dbService.doc(`messages/${messageInfo.id}`).delete();
+            await dbService.collection("Berlin").doc(`${dashId}/messages/${messageInfo.id}`).delete();
         }
     }
     const toggleModify = () => {
@@ -18,7 +18,7 @@ const Message = ({ messageInfo, userCheck }) => {
     }
     const onModify = (e) => {
         e.preventDefault();
-        dbService.doc(`messages/${messageInfo.id}`).update({ text: newMessage });
+        dbService.collection("Berlin").doc(`${dashId}/messages/${messageInfo.id}`).update({ text: newMessage });
         setEditing(false);
     }
     const onChange = (e) => {
